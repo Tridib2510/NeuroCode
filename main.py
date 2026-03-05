@@ -2,7 +2,8 @@ import os
 from google.genai import types
 from google import genai
 from dotenv import load_dotenv
-from functions.getFilesInfo import get_files_info,schema_get_files_info
+from functions.getFilesInfo import schema_get_files_info
+from functions.writeIntoFile import schema_write_file
 import sys
 load_dotenv()
 api_key=os.getenv('GEMINI_API_KEY')
@@ -27,7 +28,8 @@ messages=[
 
 available_functions=types.Tool(
     function_declarations=[
-        schema_get_files_info
+        schema_get_files_info,
+        schema_write_file
     ]
 )
 
@@ -43,7 +45,13 @@ def main():
         config=config
     )
     for candidate in response.candidates:
-        print(candidate.content)
+        if candidate is None or candidate.content is None:
+            continue
+        messages.append(candidate.content)
+
+    if response.function_calls:
+        for function_call_part in response.function_calls:
+            print(f'Function name {function_call_part.name} arg are {function_call_part.args}')
 
 
 
