@@ -5,6 +5,8 @@ from dotenv import load_dotenv
 from functions.getFilesInfo import schema_get_files_info
 from functions.writeIntoFile import schema_write_file
 from functions.run_python_file import schema_run_python_file
+from functions.getFilesContent import schema_get_files_content
+from functions.createFolderAndFile import schema_create_folder_and_file
 from functions.executeFunctions import call_function
 import sys
 load_dotenv()
@@ -34,7 +36,9 @@ available_functions=types.Tool(
     function_declarations=[
         schema_get_files_info,
         schema_write_file,
-        schema_run_python_file
+        schema_run_python_file,
+        schema_get_files_content,
+        schema_create_folder_and_file
     ]
 )
 
