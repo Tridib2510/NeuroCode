@@ -4,6 +4,8 @@ from google import genai
 from dotenv import load_dotenv
 from functions.getFilesInfo import schema_get_files_info
 from functions.writeIntoFile import schema_write_file
+from functions.run_python_file import schema_run_python_file
+from functions.executeFunctions import call_function
 import sys
 load_dotenv()
 api_key=os.getenv('GEMINI_API_KEY')
@@ -18,6 +20,8 @@ system_prompt=(
 Your are a helpful AI coding agent
         When user asks a question or makes a request, make a function call plan . You can perform the following operations:
         -List files and directories
+        -write into files
+        -run python script
         All path you provide should be relative to the working directory of the project. You should not provide any absolute path. This is a guardrail to prevent any malicious use of the function.  
     """
 )
@@ -29,7 +33,8 @@ messages=[
 available_functions=types.Tool(
     function_declarations=[
         schema_get_files_info,
-        schema_write_file
+        schema_write_file,
+        schema_run_python_file
     ]
 )
 
@@ -39,19 +44,32 @@ config=types.GenerateContentConfig(
 )
 
 def main():
-    response=client.models.generate_content(
+
+    MAX_ITER=5
+
+    for i in range(MAX_ITER):
+
+        response=client.models.generate_content(
         model="gemini-2.5-flash",
         contents=messages,
         config=config
-    )
-    for candidate in response.candidates:
-        if candidate is None or candidate.content is None:
-            continue
-        messages.append(candidate.content)
+        )   
 
-    if response.function_calls:
-        for function_call_part in response.function_calls:
-            print(f'Function name {function_call_part.name} arg are {function_call_part.args}')
+        for candidate in response.candidates:
+            if candidate is None or candidate.content is None:
+                continue
+            messages.append(candidate.content)
+
+        if response.function_calls:
+            for function_call_part in response.function_calls:
+                print(f'Function name {function_call_part.name} arg are {function_call_part.args}')
+                result=call_function(function_call_part,True)
+                messages.append(result)
+        else:
+            print(response.text)
+            return 
+
+    
 
 
 
