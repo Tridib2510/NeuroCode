@@ -2,69 +2,52 @@ import os
 from google.genai import types
 
 
-def create_folder_and_file(
-    working_directory, folder_path=None, file_path=None, content=""
-):
+def create_file(working_directory, file_path, content=""):
     abs_working_directory = os.path.abspath(working_directory)
 
-    result = ""
+    # Build absolute file path
+    abs_file_path = os.path.abspath(os.path.join(working_directory, file_path))
 
-    if folder_path:
-        abs_folder_path = os.path.abspath(os.path.join(working_directory, folder_path))
-        if not abs_folder_path.startswith(abs_working_directory):
-            return f'Error: "{folder_path}" is outside the working directory.'
+    # Security check (prevent leaving working directory)
+    if not abs_file_path.startswith(abs_working_directory):
+        return f'Error: "{file_path}" is outside the working directory.'
 
-        if not os.path.isdir(abs_folder_path):
-            try:
-                os.makedirs(abs_folder_path)
-                result += f'Successfully created folder "{folder_path}".\n'
-            except Exception as e:
-                return f'Error: Could not create folder "{folder_path}": {str(e)}'
-        else:
-            result += f'Folder "{folder_path}" already exists.\n'
+    # Extract folder path from file_path
+    parent_dir = os.path.dirname(abs_file_path)
 
-    if file_path:
-        abs_file_path = os.path.abspath(os.path.join(working_directory, file_path))
-        if not abs_file_path.startswith(abs_working_directory):
-            return f'Error: "{file_path}" is outside the working directory.'
-
-        parent_dir = os.path.dirname(abs_file_path)
-        if not os.path.isdir(parent_dir):
-            try:
-                os.makedirs(parent_dir)
-            except Exception as e:
-                return f'Error: Could not create parent directories for "{file_path}": {str(e)}'
-
+    # Create folder(s) if they don't exist
+    if not os.path.exists(parent_dir):
         try:
-            with open(abs_file_path, "w") as f:
-                f.write(content)
-            result += f'Successfully created file "{file_path}".'
+            os.makedirs(parent_dir)
         except Exception as e:
-            return f'Error: Could not create file "{file_path}": {str(e)}'
+            return f'Error: Could not create directories: {str(e)}'
 
-    return (
-        result if result else "Error: Neither folder_path nor file_path was provided."
-    )
+    # Create file
+    try:
+        with open(abs_file_path, "w") as f:
+            f.write(content)
+    except Exception as e:
+        return f'Error: Could not create file "{file_path}": {str(e)}'
+
+    return f'Successfully created "{file_path}".'
 
 
-schema_create_folder_and_file = types.FunctionDeclaration(
-    name="create_folder_and_file",
-    description="Create folders and/or files in a specified working directory. Can create both folders and files in a single call.",
+schema_create_file = types.FunctionDeclaration(
+    name="create_file",
+    description="Create a file in the working directory. If the path includes folders (e.g. calculator/cal.py), the folders will be created automatically.",
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
-            "folder_path": types.Schema(
-                type=types.Type.STRING,
-                description="Optional: The path of the folder to create, relative to the working directory.",
-            ),
             "file_path": types.Schema(
                 type=types.Type.STRING,
-                description="Optional: The path of the file to create, relative to the working directory.",
+                description="The path of the file to create relative to the working directory. Example: calculator/cal.py",
             ),
             "content": types.Schema(
                 type=types.Type.STRING,
-                description="Optional: The content to write to the file. Defaults to empty string if not provided.",
+                description="Content to write inside the file.",
             ),
         },
+        required=["file_path"],
     ),
 )
+
