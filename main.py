@@ -7,16 +7,14 @@ from functions.writeIntoFile import schema_write_file
 from functions.run_python_file import schema_run_python_file
 from functions.getFilesContent import schema_get_files_content
 from functions.createFolderAndFile import schema_create_file
+from functions.createReactApp import schema_create_react_vite_app
 from functions.executeFunctions import call_function
 import sys
 load_dotenv()
-# api_key=os.getenv('GEMINI_API_KEY')
-api_key="AIzaSyDurj_T_h62LOgCczLtAhr0krOV6sosiKo"
+api_key=os.getenv('GEMINI_API_KEY')
 client=genai.Client(api_key=api_key)
 
 prompt=sys.argv[1]
-
-
 
 system_prompt=(
     """
@@ -37,6 +35,7 @@ Available capabilities:
 - Write files
 - Run Python scripts
 - Create folders and files
+- Create react apps
     """
 )
 
@@ -50,7 +49,8 @@ available_functions=types.Tool(
         schema_write_file,
         schema_run_python_file,
         schema_get_files_content,
-        schema_create_file
+        schema_create_file,
+        schema_create_react_vite_app
     ]
 )
 
@@ -61,7 +61,7 @@ config=types.GenerateContentConfig(
 
 def main():
 
-    MAX_ITER=5
+    MAX_ITER=10
 
     for i in range(MAX_ITER):
 
