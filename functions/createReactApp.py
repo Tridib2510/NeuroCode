@@ -7,7 +7,7 @@ def create_react_vite_app(working_directory, project_name):
     try:
         command = f"npx create-vite@latest {project_name} --template react"
         
-        print('Test case 0 passed')
+        
 
         result = subprocess.run(
             command,

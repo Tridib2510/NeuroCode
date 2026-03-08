@@ -5,6 +5,8 @@ from functions.run_python_file import run_python_file
 from functions.getFilesContent import get_file_content
 from functions.createFolderAndFile import create_file
 from functions.createReactApp import create_react_vite_app
+from functions.run_react_app import run_react_app
+from functions.install_dependencies import install_dependencies
 
 from google.genai import types
 working_directory="."
@@ -30,6 +32,10 @@ def call_function(function_call_part,verbose=False):
         result=create_file(working_directory,**function_call_part.args)
     if function_call_part.name == "create_react_vite_app":
         result=create_react_vite_app(working_directory,**function_call_part.args)
+    if function_call_part.name == "run_react_app":
+        result=run_react_app(working_directory,**function_call_part.args)
+    if function_call_part.name == "install_dependencies":
+        result=install_dependencies(working_directory,**function_call_part.args)
 
     if result=="":
         return types.Content(

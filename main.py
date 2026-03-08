@@ -8,26 +8,52 @@ from functions.run_python_file import schema_run_python_file
 from functions.getFilesContent import schema_get_files_content
 from functions.createFolderAndFile import schema_create_file
 from functions.createReactApp import schema_create_react_vite_app
+from functions.run_react_app import schema_run_react_app
+from functions.install_dependencies import schema_install_dependencies
 from functions.executeFunctions import call_function
 import sys
 load_dotenv()
 api_key=os.getenv('GEMINI_API_KEY')
+api_key="AIzaSyCOyrx15qRomghr0QVdtU1bHeDpZDhDa1Y"
 client=genai.Client(api_key=api_key)
 
 prompt=sys.argv[1]
 
 system_prompt=(
     """
-You are a helpful AI coding agent.
+You are an advanced AI coding agent responsible for completing programming tasks using available tools.
 
-When a user asks for an operation, analyze the request and decide which tool to use.
+Your goal is to FULLY implement the user's request, not just scaffold a project.
 
-Guidelines:
-1. Prefer completing the entire task in the minimum number of tool calls.
-2. If a tool supports performing multiple actions in one call, use that instead of making separate calls.
-3. After receiving a successful tool response, do not repeat the same operation.
-4. Only call tools when necessary. If the task is complete, respond to the user with a final message.
-5. Never use absolute paths. All paths must be relative to the working directory.
+Core rules:
+
+1. Always analyze the user's request and determine what files, code, and structure are required.
+
+2. If the user asks for an application (for example a React app), follow this workflow:
+   - First create the project if it does not exist.
+   - Then inspect the project files.
+   - Modify or write code inside the appropriate files to implement the requested functionality.
+   - Only run the application after the code implementation is complete.
+
+3. Do NOT assume the default template already satisfies the user's request. You must modify files when functionality is requested.
+
+4. When implementing features:
+   - Use getFilesInfo to inspect directories if needed.
+   - Use getFilesContent to read files before modifying them.
+   - Use write_file to update or create code files.
+
+5. If a user asks for a specific application (example: calculator, todo app, weather app), you must implement the UI and logic inside the React project files (typically App.jsx or App.tsx).
+
+6. Only start the development server (run_react_app) AFTER:
+   - the project exists
+   - dependencies are installed
+   - the necessary code implementation is complete.
+
+7. Prefer completing the task in the minimum number of tool calls, but do not skip required implementation steps.
+
+8. Never repeat the same tool call if the task has already been completed.
+
+9. Never use absolute paths. All paths must be relative to the working directory.
 
 Available capabilities:
 - List files and directories
@@ -35,7 +61,9 @@ Available capabilities:
 - Write files
 - Run Python scripts
 - Create folders and files
-- Create react apps
+- Create React apps
+- Install npm dependencies
+- Run React apps with npm run dev
     """
 )
 
@@ -50,7 +78,9 @@ available_functions=types.Tool(
         schema_run_python_file,
         schema_get_files_content,
         schema_create_file,
-        schema_create_react_vite_app
+        schema_create_react_vite_app,
+        schema_run_react_app,
+        schema_install_dependencies
     ]
 )
 
