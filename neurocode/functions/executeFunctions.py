@@ -1,12 +1,12 @@
-from functions.file_operations.getFilesInfo import get_files_info
-from functions.execution.run_python_file import run_python_file
-from functions.file_operations.writeIntoFile import write_file
-from functions.file_operations.getFilesContent import get_file_content
-from functions.file_operations.createFolderAndFile import create_file
-from functions.project_creation.createReactApp import create_react_vite_app
-from functions.execution.run_react_app import run_react_app
-from functions.dependencies.install_dependencies import install_dependencies
-from functions.dependencies.install_python_dependencies import (
+from neurocode.functions.file_operations.getFilesInfo import get_files_info
+from neurocode.functions.execution.run_python_file import run_python_file
+from neurocode.functions.file_operations.writeIntoFile import write_file
+from neurocode.functions.file_operations.getFilesContent import get_file_content
+from neurocode.functions.file_operations.createFolderAndFile import create_file
+from neurocode.functions.project_creation.createReactApp import create_react_vite_app
+from neurocode.functions.execution.run_react_app import run_react_app
+from neurocode.functions.dependencies.install_dependencies import install_dependencies
+from neurocode.functions.dependencies.install_python_dependencies import (
     create_uv_environment,
     install_python_dependencies,
 )

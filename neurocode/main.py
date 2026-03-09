@@ -2,20 +2,20 @@ import os
 from google.genai import types
 from google import genai
 from dotenv import load_dotenv
-from functions.file_operations.getFilesInfo import schema_get_files_info
-from functions.file_operations.writeIntoFile import schema_write_file
-from functions.execution.run_python_file import schema_run_python_file
-from functions.file_operations.getFilesContent import schema_get_files_content
-from functions.file_operations.createFolderAndFile import schema_create_file
-from functions.project_creation.createReactApp import schema_create_react_vite_app
-from functions.execution.run_react_app import schema_run_react_app
-from functions.dependencies.install_dependencies import schema_install_dependencies
+from neurocode.functions.file_operations.getFilesInfo import schema_get_files_info
+from neurocode.functions.file_operations.writeIntoFile import schema_write_file
+from neurocode.functions.execution.run_python_file import schema_run_python_file
+from neurocode.functions.file_operations.getFilesContent import schema_get_files_content
+from neurocode.functions.file_operations.createFolderAndFile import schema_create_file
+from neurocode.functions.project_creation.createReactApp import schema_create_react_vite_app
+from neurocode.functions.execution.run_react_app import schema_run_react_app
+from neurocode.functions.dependencies.install_dependencies import schema_install_dependencies
 
-from functions.dependencies.install_python_dependencies import (
+from neurocode.functions.dependencies.install_python_dependencies import (
     schema_create_uv_environment,
     schema_install_python_dependencies,
 )
-from functions.executeFunctions import call_function
+from neurocode.functions.executeFunctions import call_function
 import sys
 
 load_dotenv()
