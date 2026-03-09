@@ -1,59 +1,69 @@
-from functions.getFilesInfo import get_files_info
-from functions.run_python_file import run_python_file
-from functions.writeIntoFile import write_file
-from functions.run_python_file import run_python_file
-from functions.getFilesContent import get_file_content
-from functions.createFolderAndFile import create_file
-from functions.createReactApp import create_react_vite_app
-from functions.run_react_app import run_react_app
-from functions.install_dependencies import install_dependencies
+from functions.file_operations.getFilesInfo import get_files_info
+from functions.execution.run_python_file import run_python_file
+from functions.file_operations.writeIntoFile import write_file
+from functions.file_operations.getFilesContent import get_file_content
+from functions.file_operations.createFolderAndFile import create_file
+from functions.project_creation.createReactApp import create_react_vite_app
+from functions.execution.run_react_app import run_react_app
+from functions.dependencies.install_dependencies import install_dependencies
+from functions.dependencies.install_python_dependencies import (
+    create_uv_environment,
+    install_python_dependencies,
+)
 
 from google.genai import types
-working_directory="."
 
-def call_function(function_call_part,verbose=False):
+working_directory = "."
+
+
+def call_function(function_call_part, verbose=False):
     if verbose:
-        print("Function call part",function_call_part.name)
+        print("Function call part", function_call_part.name)
     else:
-        print("Calling function",function_call_part.name)
-    
-    result=""
-   
-    if function_call_part.name == "get_files_info":
-       result= get_files_info(working_directory,**function_call_part.args)
-        #**function_call_part.args->unpacking the arguments from the function call part and passing them to the get_files_info function
-    if function_call_part.name == "get_file_content":
-       result= get_file_content(working_directory,**function_call_part.args)
-    if function_call_part.name == "write_file":
-       result= write_file(working_directory,**function_call_part.args)
-    if function_call_part.name == "run_python_file":
-       result= run_python_file(working_directory,**function_call_part.args)
-    if function_call_part.name == "create_file":
-        result=create_file(working_directory,**function_call_part.args)
-    if function_call_part.name == "create_react_vite_app":
-        result=create_react_vite_app(working_directory,**function_call_part.args)
-    if function_call_part.name == "run_react_app":
-        result=run_react_app(working_directory,**function_call_part.args)
-    if function_call_part.name == "install_dependencies":
-        result=install_dependencies(working_directory,**function_call_part.args)
+        print("Calling function", function_call_part.name)
 
-    if result=="":
+    result = ""
+
+    if function_call_part.name == "get_files_info":
+        result = get_files_info(working_directory, **function_call_part.args)
+        # **function_call_part.args->unpacking the arguments from the function call part and passing them to the get_files_info function
+    if function_call_part.name == "get_file_content":
+        result = get_file_content(working_directory, **function_call_part.args)
+    if function_call_part.name == "write_file":
+        result = write_file(working_directory, **function_call_part.args)
+    if function_call_part.name == "run_python_file":
+        result = run_python_file(working_directory, **function_call_part.args)
+    if function_call_part.name == "create_file":
+        result = create_file(working_directory, **function_call_part.args)
+    if function_call_part.name == "create_react_vite_app":
+        result = create_react_vite_app(working_directory, **function_call_part.args)
+    if function_call_part.name == "run_react_app":
+        result = run_react_app(working_directory, **function_call_part.args)
+    if function_call_part.name == "install_dependencies":
+        result = install_dependencies(working_directory, **function_call_part.args)
+    if function_call_part.name == "create_uv_environment":
+        result = create_uv_environment(working_directory, **function_call_part.args)
+    if function_call_part.name == "install_python_dependencies":
+        result = install_python_dependencies(
+            working_directory, **function_call_part.args
+        )
+
+    if result == "":
         return types.Content(
             role="tool",
             parts=[
                 types.Part.from_function_response(
                     name=function_call_part.name,
-                    response={"error":f"Unknown function: {function_call_part.name}"}
+                    response={"error": f"Unknown function: {function_call_part.name}"},
                 )
-            ]
-        )    
-    
+            ],
+        )
+
     return types.Content(
         role="tool",
         parts=[
             types.Part.from_function_response(
-                name=function_call_part.name,
-                response={'result':result}
+                name=function_call_part.name, response={"result": result}
             )
         ],
     )

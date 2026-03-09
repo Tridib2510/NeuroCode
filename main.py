@@ -2,25 +2,30 @@ import os
 from google.genai import types
 from google import genai
 from dotenv import load_dotenv
-from functions.getFilesInfo import schema_get_files_info
-from functions.writeIntoFile import schema_write_file
-from functions.run_python_file import schema_run_python_file
-from functions.getFilesContent import schema_get_files_content
-from functions.createFolderAndFile import schema_create_file
-from functions.createReactApp import schema_create_react_vite_app
-from functions.run_react_app import schema_run_react_app
-from functions.install_dependencies import schema_install_dependencies
+from functions.file_operations.getFilesInfo import schema_get_files_info
+from functions.file_operations.writeIntoFile import schema_write_file
+from functions.execution.run_python_file import schema_run_python_file
+from functions.file_operations.getFilesContent import schema_get_files_content
+from functions.file_operations.createFolderAndFile import schema_create_file
+from functions.project_creation.createReactApp import schema_create_react_vite_app
+from functions.execution.run_react_app import schema_run_react_app
+from functions.dependencies.install_dependencies import schema_install_dependencies
+
+from functions.dependencies.install_python_dependencies import (
+    schema_create_uv_environment,
+    schema_install_python_dependencies,
+)
 from functions.executeFunctions import call_function
 import sys
+
 load_dotenv()
-api_key=os.getenv('GEMINI_API_KEY')
-api_key="AIzaSyCOyrx15qRomghr0QVdtU1bHeDpZDhDa1Y"
-client=genai.Client(api_key=api_key)
+# api_key = os.getenv("GEMINI_API_KEY")
+api_key = "AIzaSyCIEsYde_kbOj-mmWeLKILRz5bYeAIM-9o"
+client = genai.Client(api_key=api_key)
 
-prompt=sys.argv[1]
+prompt = sys.argv[1]
 
-system_prompt=(
-    """
+system_prompt = """
 You are an advanced AI coding agent responsible for completing programming tasks using available tools.
 
 Your goal is to FULLY implement the user's request, not just scaffold a project.
@@ -64,14 +69,13 @@ Available capabilities:
 - Create React apps
 - Install npm dependencies
 - Run React apps with npm run dev
+- Create UV Python virtual environments
+- Install Python dependencies using UV
     """
-)
 
-messages=[
-    types.Content(role="user",parts=[types.Part(text=prompt)])
-]
+messages = [types.Content(role="user", parts=[types.Part(text=prompt)])]
 
-available_functions=types.Tool(
+available_functions = types.Tool(
     function_declarations=[
         schema_get_files_info,
         schema_write_file,
@@ -80,26 +84,24 @@ available_functions=types.Tool(
         schema_create_file,
         schema_create_react_vite_app,
         schema_run_react_app,
-        schema_install_dependencies
+        schema_install_dependencies,
+        schema_create_uv_environment,
+        schema_install_python_dependencies,
     ]
 )
 
-config=types.GenerateContentConfig(
-    tools=[available_functions],
-    system_instruction=system_prompt
+config = types.GenerateContentConfig(
+    tools=[available_functions], system_instruction=system_prompt
 )
 
-def main():
 
-    MAX_ITER=10
+def main():
+    MAX_ITER = 5
 
     for i in range(MAX_ITER):
-
-        response=client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=messages,
-        config=config
-        )   
+        response = client.models.generate_content(
+            model="gemini-2.5-flash", contents=messages, config=config
+        )
 
         for candidate in response.candidates:
             if candidate is None or candidate.content is None:
@@ -108,16 +110,15 @@ def main():
 
         if response.function_calls:
             for function_call_part in response.function_calls:
-                print(f'Function name {function_call_part.name} arg are {function_call_part.args}')
-                result=call_function(function_call_part,True)
+                print(
+                    f"Function name {function_call_part.name} arg are {function_call_part.args}"
+                )
+                result = call_function(function_call_part, True)
                 messages.append(result)
-                
+
         else:
             print(response.text)
-            return 
-
-    
-
+            return
 
 
 if __name__ == "__main__":
