@@ -5,6 +5,7 @@ Summary: AI coding agent CLI
 Requires-Python: >=3.14
 Description-Content-Type: text/markdown
 License-File: LICENSE
+Requires-Dist: colorama>=0.4.6
 Requires-Dist: google-genai>=1.65.0
 Requires-Dist: python-dotenv>=1.2.2
 Requires-Dist: rich>=14.3.3
