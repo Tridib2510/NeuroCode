@@ -14,9 +14,7 @@ assistant** that can interact with your codebase using structured tools.
 
 # 🎥 Demo
 
-Watch the demo on YouTube:
-
-[https://youtu.be/T-roQFdVc0U?si=MsGiVAKBdujInboY]
+[![Watch the demo](https://img.youtube.com/vi/T-roQFdVc0U/maxresdefault.jpg)](https://youtu.be/T-roQFdVc0U?si=MsGiVAKBdujInboY)
 ------------------------------------------------------------------------
 
 # 🚀 Features
