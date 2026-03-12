@@ -129,7 +129,10 @@ def process_request(prompt, messages):
         if response.function_calls:
             for function_call_part in response.function_calls:
                 print(
-                    f"Function name {function_call_part.name} arg are {function_call_part.args}"
+                    f"{Fore.MAGENTA}Function name:{Style.RESET_ALL} "
+                    f"{Fore.CYAN}{Style.BRIGHT}{function_call_part.name}{Style.RESET_ALL} "
+                    f"{Fore.MAGENTA}| Args:{Style.RESET_ALL} "
+                    f"{Fore.YELLOW}{function_call_part.args}{Style.RESET_ALL}"
                 )
                 result = call_function(function_call_part, True)
                 messages.append(result)
