@@ -19,6 +19,7 @@ from neurocode.functions.dependencies.install_python_dependencies import (
     schema_create_uv_environment,
     schema_install_python_dependencies,
 )
+from neurocode.functions.image_analysis.analyzeImage import schema_analyze_image
 from neurocode.functions.executeFunctions import call_function
 from colorama import Fore, Style, init
 
@@ -87,6 +88,7 @@ Available capabilities:
 - Run React apps with npm run dev
 - Create UV Python virtual environments
 - Install Python dependencies using UV
+- Analyze images using Gemini 2.5 Flash model (image classification, detailed description)
     """
 
 messages = []
@@ -103,6 +105,7 @@ available_functions = types.Tool(
         schema_install_dependencies,
         schema_create_uv_environment,
         schema_install_python_dependencies,
+        schema_analyze_image,
     ]
 )
 
@@ -134,7 +137,7 @@ def process_request(prompt, messages):
                     f"{Fore.MAGENTA}| Args:{Style.RESET_ALL} "
                     f"{Fore.YELLOW}{function_call_part.args}{Style.RESET_ALL}"
                 )
-                result = call_function(function_call_part, True)
+                result = call_function(function_call_part, True, api_key)
                 messages.append(result)
 
         else:
@@ -151,7 +154,11 @@ def main():
         )
         prompt = input(f"{Fore.GREEN}> {Style.BRIGHT}")
 
-        if prompt.strip().lower() in ["exit", "quit", "q"]: #.strip() removes extra characters from a string
+        if prompt.strip().lower() in [
+            "exit",
+            "quit",
+            "q",
+        ]:  # .strip() removes extra characters from a string
             print(f"\n{Fore.YELLOW}Goodbye!{Style.RESET_ALL}\n")
             break
 

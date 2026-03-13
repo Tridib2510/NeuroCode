@@ -10,13 +10,14 @@ from neurocode.functions.dependencies.install_python_dependencies import (
     create_uv_environment,
     install_python_dependencies,
 )
+from neurocode.functions.image_analysis.analyzeImage import analyze_image
 
 from google.genai import types
 
 working_directory = "."
 
 
-def call_function(function_call_part, verbose=False):
+def call_function(function_call_part, verbose=False, api_key=None):
     if verbose:
         print("Function call part", function_call_part.name)
     else:
@@ -46,6 +47,10 @@ def call_function(function_call_part, verbose=False):
     if function_call_part.name == "install_python_dependencies":
         result = install_python_dependencies(
             working_directory, **function_call_part.args
+        )
+    if function_call_part.name == "analyze_image":
+        result = analyze_image(
+            working_directory, api_key=api_key, **function_call_part.args
         )
 
     if result == "":
