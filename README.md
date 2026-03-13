@@ -14,10 +14,7 @@ assistant** that can interact with your codebase using structured tools.
 
 # 🎥 Demo
 
-Watch the demo on YouTube:
-
-https://youtube.com/your-demo-video
-
+[![Watch the demo](https://img.youtube.com/vi/T-roQFdVc0U/maxresdefault.jpg)](https://youtu.be/T-roQFdVc0U?si=MsGiVAKBdujInboY)
 ------------------------------------------------------------------------
 
 # 🚀 Features
@@ -85,7 +82,7 @@ This project uses **uv** as the Python package manager.
 ### Install UV (PowerShell)
 
 ``` powershell
-pip install uv
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
 Verify installation:
@@ -120,22 +117,12 @@ uv tool install .
 
 ------------------------------------------------------------------------
 
-# 🔑 Environment Variables
-
-Create a `.env` file in the root directory.
-
-Example:
-
-    GEMINI_API_KEY=your_api_key_here
-
-------------------------------------------------------------------------
-
 # ▶️ Running NeuroCode
 
 Run the AI coding assistant:
 
 ``` powershell
-uv run neurocode/main.py
+neurocode
 ```
 
 Example prompt:
