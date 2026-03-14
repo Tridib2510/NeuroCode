@@ -201,7 +201,7 @@ def main():
         print(f"{Fore.GREEN}Processing your request...{Style.RESET_ALL}")
         print(f"{Fore.CYAN}{'=' * 60}\n")
 
-        process_request(prompt, messages)
+        process_request(prompt, messages)#
 
 
 if __name__ == "__main__":
