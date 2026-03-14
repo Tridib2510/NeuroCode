@@ -14,10 +14,14 @@ def analyze_image(
     api_key: str = None,
 ):
     abs_working_directory = os.path.abspath(working_directory)
-    abs_image_path = os.path.abspath(os.path.join(working_directory, image_path))
 
-    if not abs_image_path.startswith(abs_working_directory):
-        return f'Error: "{image_path}" is outside the working directory.'
+    if os.path.isabs(image_path):
+        abs_image_path = image_path
+    else:
+        abs_image_path = os.path.abspath(os.path.join(working_directory, image_path))
+
+        if not abs_image_path.startswith(abs_working_directory):
+            return f'Error: "{image_path}" is outside the working directory.'
 
     if not os.path.isfile(abs_image_path):
         return f'Error: "{image_path}" does not exist.'
@@ -82,13 +86,13 @@ def analyze_image(
 
 schema_analyze_image = types.FunctionDeclaration(
     name="analyze_image",
-    description="Analyze an image using Gemini 2.5 Flash model. Supports image classification and detailed image description.",
+    description="Analyze an image using Gemini 2.5 Flash model. Supports image classification and detailed image description. Accepts both absolute paths (e.g., 'C:\\Users\\...\\image.jpg') and relative paths (e.g., 'images/photo.jpg').",
     parameters=types.Schema(
         type=types.Type.OBJECT,
         properties={
             "image_path": types.Schema(
                 type=types.Type.STRING,
-                description="The path of the image file to analyze, relative to the working directory.",
+                description="The path of the image file to analyze. Can be an absolute path or a path relative to the working directory.",
             ),
             "task": types.Schema(
                 type=types.Type.STRING,
@@ -98,5 +102,4 @@ schema_analyze_image = types.FunctionDeclaration(
         },
         required=["image_path"],
     ),
-    
 )

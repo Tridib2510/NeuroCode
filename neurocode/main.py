@@ -2,6 +2,7 @@ import os
 from google.genai import types
 from google import genai
 from dotenv import load_dotenv
+from neurocode.utils import select_image_file
 from neurocode.functions.file_operations.getFilesInfo import schema_get_files_info
 from neurocode.functions.file_operations.writeIntoFile import schema_write_file
 from neurocode.functions.execution.run_python_file import schema_run_python_file
@@ -75,7 +76,9 @@ Core rules:
 
 8. Never repeat the same tool call if the task has already been completed.
 
-9. Never use absolute paths. All paths must be relative to the working directory.
+9. Never use absolute paths for file operations (get_files_info, get_file_content, write_file, create_file, etc.). All paths must be relative to the working directory.
+
+10. For image analysis, you can use absolute paths (e.g., from file selection) or relative paths within the working directory.
 
 Available capabilities:
 - List files and directories
@@ -146,11 +149,17 @@ def process_request(prompt, messages):
 
 
 def main():
+    selected_image_path = None
+
     while True:
+        if selected_image_path:
+            print(f"\n{Fore.CYAN}Current image:{Style.RESET_ALL} {selected_image_path}")
+            print(f"{Fore.YELLOW}Type 'clear' to clear the image{Style.RESET_ALL}\n")
+
         print(f"\n{Fore.CYAN}{'=' * 60}")
         print(f"{Fore.YELLOW}Enter your prompt:")
         print(
-            f"{Fore.CYAN}Type your request below and press Enter (or 'exit' to quit):{Style.RESET_ALL}"
+            f"{Fore.CYAN}Type your request below and press Enter (or 'exit' to quit, 'select image' to choose an image):{Style.RESET_ALL}"
         )
         prompt = input(f"{Fore.GREEN}> {Style.BRIGHT}")
 
@@ -158,15 +167,35 @@ def main():
             "exit",
             "quit",
             "q",
-        ]:  # .strip() removes extra characters from a string
+        ]:
             print(f"\n{Fore.YELLOW}Goodbye!{Style.RESET_ALL}\n")
             break
+
+        if prompt.strip().lower() == "clear":
+            selected_image_path = None
+            print(f"\n{Fore.GREEN}Image cleared.{Style.RESET_ALL}")
+            continue
+
+        if prompt.strip().lower() in ["select image", "choose image"]:
+            print(f"\n{Fore.CYAN}Opening file dialog...{Style.RESET_ALL}")
+            image_path = select_image_file()
+            if image_path:
+                selected_image_path = image_path
+                print(
+                    f"\n{Fore.GREEN}Selected image path:{Style.RESET_ALL} {image_path}"
+                )
+            else:
+                print(f"\n{Fore.YELLOW}No image selected.{Style.RESET_ALL}")
+            continue
 
         while not prompt.strip():
             print(
                 f"{Fore.RED}Prompt cannot be empty! Please enter a valid request.{Style.RESET_ALL}"
             )
             prompt = input(f"{Fore.GREEN}> {Style.BRIGHT}")
+
+        if selected_image_path:
+            prompt = f"{prompt}\n\nImage path: {selected_image_path}"
 
         print(f"\n{Fore.CYAN}{'=' * 60}")
         print(f"{Fore.GREEN}Processing your request...{Style.RESET_ALL}")
