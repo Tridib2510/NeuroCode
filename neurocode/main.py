@@ -92,6 +92,7 @@ Available capabilities:
 - Create UV Python virtual environments
 - Install Python dependencies using UV
 - Analyze images using Gemini 2.5 Flash model (image classification, detailed description)
+- Analyze webpages using beautiful soup
     """
 
 messages = []
@@ -138,9 +139,10 @@ def process_request(prompt, messages):
                     f"{Fore.MAGENTA}Function name:{Style.RESET_ALL} "
                     f"{Fore.CYAN}{Style.BRIGHT}{function_call_part.name}{Style.RESET_ALL} "
                     f"{Fore.MAGENTA}| Args:{Style.RESET_ALL} "
-                    f"{Fore.YELLOW}{function_call_part.args}{Style.RESET_ALL}"
+                    
                 )
-                result = call_function(function_call_part, True, api_key)
+                result = call_function(function_call_part, api_key)
+                print(f"✅ {Fore.YELLOW}{function_call_part.name} function successfully executed")
                 messages.append(result)
 
         else:
@@ -201,7 +203,7 @@ def main():
         print(f"{Fore.GREEN}Processing your request...{Style.RESET_ALL}")
         print(f"{Fore.CYAN}{'=' * 60}\n")
 
-        process_request(prompt, messages)#
+        process_request(prompt, messages)
 
 
 if __name__ == "__main__":

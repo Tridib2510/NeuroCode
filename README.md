@@ -27,6 +27,8 @@ assistant** that can interact with your codebase using structured tools.
 -   🎨 Colored terminal output using Colorama
 -   📁 Safe working‑directory based file operations
 -   ⚡ Lightweight and fast
+-   🌐 Webpage analysis using BeautifulSoup (structure, content, links, images, forms)
+-   🖼️ Image analysis using Gemini 2.5 Flash model
 
 ------------------------------------------------------------------------
 
@@ -38,6 +40,8 @@ assistant** that can interact with your codebase using structured tools.
 -   Colorama
 -   UV Python package manager
 -   python-dotenv
+-   BeautifulSoup4
+-   Requests
 
 ------------------------------------------------------------------------
 
@@ -53,8 +57,27 @@ assistant** that can interact with your codebase using structured tools.
     │   │   │   ├── writeIntoFile.py
     │   │   │   └── createFolderAndFile.py
     │   │   │
-    │   │   └── execution
-    │   │       └── run_python_file.py
+    │   │   ├── execution
+    │   │   │   ├── run_python_file.py
+    │   │   │   └── run_react_app.py
+    │   │   │
+    │   │   ├── dependencies
+    │   │   │   ├── install_dependencies.py
+    │   │   │   └── install_python_dependencies.py
+    │   │   │
+    │   │   ├── project_creation
+    │   │   │   └── createReactApp.py
+    │   │   │
+    │   │   ├── image_analysis
+    │   │   │   └── analyzeImage.py
+    │   │   │
+    │   │   ├── web_analysis
+    │   │   │   └── analyzeWebpage.py
+    │   │   │
+    │   │   └── executeFunctions.py
+    │   │
+    │   ├── utils
+    │   │   └── file_dialog.py
     │   │
     │   └── main.py
     │
@@ -93,23 +116,42 @@ uv --version
 
 ------------------------------------------------------------------------
 
-## 2️⃣ Initialize UV
+## 2️⃣ Create virtual environment
 
 ``` powershell
-uv init
+uv venv
 ```
 
 ------------------------------------------------------------------------
 
-## 3️⃣ Install dependencies
+## 3️⃣ Activate virtual environment
 
+**PowerShell:**
 ``` powershell
-uv add -r requirements.txt
+.venv\Scripts\Activate.ps1
+```
+
+**CMD:**
+``` cmd
+.venv\Scripts\activate.bat
+```
+
+**Git Bash / WSL:**
+``` bash
+source .venv/bin/activate
 ```
 
 ------------------------------------------------------------------------
 
-## 4️⃣ Install project tools
+## 4️⃣ Install dependencies
+
+``` powershell
+uv pip install -r requirements.txt
+```
+
+------------------------------------------------------------------------
+
+## 5️⃣ Install project tools
 
 ``` powershell
 uv tool install .
@@ -125,13 +167,16 @@ Run the AI coding assistant:
 neurocode
 ```
 
-Example prompt:
+Example prompts:
 
-    List all files in this directory
-
-Or:
-
-    Create a new Python file called test.py
+- List all files in this directory
+- Create a new Python file called test.py
+- Analyze the structure of https://example.com
+- Extract all links from https://example.com
+- Analyze the forms on https://httpbin.org/forms/post
+- Select an image for analysis
+- Create a React app with Vite
+- Install dependencies for a React project
 
 ------------------------------------------------------------------------
 
@@ -147,6 +192,12 @@ call tools such as:
   writeIntoFile         Write code into files
   createFolderAndFile   Create files and folders
   run_python_file       Execute Python scripts
+  analyze_image         Analyze images using Gemini 2.5 Flash
+  analyze_webpage       Analyze webpages using BeautifulSoup
+  create_react_vite_app Create React/Vite projects
+  run_react_app         Run React development servers
+  install_dependencies  Install npm dependencies
+  install_python_dependencies  Install Python dependencies
 
 The AI agent decides **which tool to call based on user prompts**.
 
@@ -175,6 +226,7 @@ Agent workflow:
 -   Plugin tool ecosystem
 -   Web UI editor
 -   LSP integration
+-   Enhanced webpage replication features
 
 ------------------------------------------------------------------------
 
