@@ -1,6 +1,14 @@
-[![Twitter](https://img.shields.io/twitter/url/https/twitter.com/Tridib2510.svg?style=social&label=Follow%20%40Tridib2510)](https://x.com/Tridib2510)
-[![YouTube Channel](https://img.shields.io/youtube/channel/subscribers/UCn2bInQrjdDYKEEmbpwblLQ?label=Subscribe)](https://www.youtube.com/@noobbhai7369)
-[![Discord Server](https://img.shields.io/discord/1116803230643527710?logo=discord&style=social&label=Join)](https://discord.gg/tridib0311)
+<p align="center">
+  <a href="https://x.com/Tridib2510">
+    <img src="https://img.shields.io/badge/-@Tridib2510-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
+  </a>
+  <a href="https://www.youtube.com/@noobbhai7369">
+    <img src="https://img.shields.io/badge/-@noobbhai7369-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube">
+  </a>
+  <a href="https://discord.gg/tridib0311">
+    <img src="https://img.shields.io/badge/-tridib0311-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
+  </a>
+</p>
 
 # 🧠 NeuroCode -- AI Code Editor powered by Gemini
 
