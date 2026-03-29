@@ -14,7 +14,7 @@ assistant** that can interact with your codebase using structured tools.
 
 # 🎥 Demo
 
-[![Watch the demo](https://img.youtube.com/vi/T-roQFdVc0U/maxresdefault.jpg)](https://youtu.be/T-roQFdVc0U?si=MsGiVAKBdujInboY)
+[![Watch the demo](https://img.youtube.com/vi/089bAwjMExM/maxresdefault.jpg)](https://youtu.be/089bAwjMExM?si=UDEbEZZUVNne_yvs)
 ------------------------------------------------------------------------
 
 # 🚀 Features
@@ -29,6 +29,7 @@ assistant** that can interact with your codebase using structured tools.
 -   ⚡ Lightweight and fast
 -   🌐 Webpage analysis using BeautifulSoup (structure, content, links, images, forms)
 -   🖼️ Image analysis using Gemini 2.5 Flash model
+-   📊 Token usage tracking (displays prompt tokens, response tokens, and total usage)
 
 ------------------------------------------------------------------------
 

@@ -12,14 +12,15 @@ dependencies = [
     "rich>=14.3.3",
     "pillow>=10.0.0",
     "transformers>=4.40.0",
-    "torch>=2.0.0",
     "requests>=2.31.0",
     "beautifulsoup4>=4.12.0",
+    "matplotlib>=3.8.0",
+    "numpy>=1.26.0",
+    "pytest"
 ]
 
 [project.scripts]
 neurocode = "neurocode.main:main"
-
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0.0",
@@ -27,6 +28,9 @@ dev = [
     "pytest-mock>=3.12.0",
     "coverage>=7.0.0",
 ]
+
+[tool.hatch.build.targets.wheel]
+packages = ["neurocode", "neurocode.images"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

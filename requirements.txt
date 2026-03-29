@@ -5,3 +5,6 @@ colorama
 requests
 beautifulsoup4
 pytest
+torch
+transformers
+matplotlib
