@@ -3,7 +3,7 @@
     <img src="https://img.shields.io/badge/-@Tridib2510-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white" alt="Twitter">
   </a>
   <a href="https://www.youtube.com/@noobbhai7369">
-    <img src="https://img.shields.io/badge/-@noobbhai7369-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube">
+    <img src="https://img.shields.io/badge/-Tridib2510-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube">
   </a>
   <a href="https://discord.gg/tridib0311">
     <img src="https://img.shields.io/badge/-tridib0311-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord">
