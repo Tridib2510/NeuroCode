@@ -34,13 +34,10 @@ assistant** that can interact with your codebase using structured tools.
 ------------------------------------------------------------------------
 
 # 🧱 Tech Stack
-
--   Python
 -   Gemini SDK
 -   Agentic AI architecture
 -   Colorama
--   UV Python package manager
--   python-dotenv
+-   tkinter
 -   BeautifulSoup4
 -   Requests
 
