@@ -178,29 +178,6 @@ Example prompts:
 
 ------------------------------------------------------------------------
 
-# 🧠 How It Works
-
-NeuroCode uses an **Agentic AI architecture** where the Gemini model can
-call tools such as:
-
-  Tool                  Purpose
-  --------------------- ---------------------------
-  getFilesInfo          List files in a directory
-  getFilesContent       Read file contents
-  writeIntoFile         Write code into files
-  createFolderAndFile   Create files and folders
-  run_python_file       Execute Python scripts
-  analyze_image         Analyze images using Gemini 2.5 Flash
-  analyze_webpage       Analyze webpages using BeautifulSoup
-  create_react_vite_app Create React/Vite projects
-  run_react_app         Run React development servers
-  install_dependencies  Install npm dependencies
-  install_python_dependencies  Install Python dependencies
-
-The AI agent decides **which tool to call based on user prompts**.
-
-------------------------------------------------------------------------
-
 # 🛠 Example Workflow
 
 User prompt:

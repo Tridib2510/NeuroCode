@@ -8,3 +8,4 @@ pytest
 torch
 transformers
 matplotlib
+tkinter 
