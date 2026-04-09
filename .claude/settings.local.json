@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"from fastmcp import Client; help\\(Client.__init__\\)\")"
+    ]
+  }
+}

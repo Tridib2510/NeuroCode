@@ -8,4 +8,8 @@ pytest
 torch
 transformers
 matplotlib
-tkinter 
+fastmcp
+fastapi-mcp
+mcp
+anthropic
+PySide6

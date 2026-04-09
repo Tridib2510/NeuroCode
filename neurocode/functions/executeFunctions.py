@@ -12,8 +12,10 @@ from neurocode.functions.dependencies.install_python_dependencies import (
 )
 from neurocode.functions.image_analysis.analyzeImage import analyze_image
 from neurocode.functions.web_analysis.analyzeWebpage import analyze_webpage
+from neurocode.functions.mcp.mcp_connection import connect_mcp_server, list_mcp_tools
 
 from google.genai import types
+import asyncio
 
 working_directory = "."
 
@@ -32,6 +34,8 @@ def call_function(function_call_part, api_key=None):
         "install_python_dependencies": (install_python_dependencies, working_directory),
         "analyze_image": (analyze_image, working_directory, api_key),
         "analyze_webpage": (analyze_webpage, working_directory),
+        "connect_mcp_server": (connect_mcp_server,),
+        "list_mcp_tools": (list_mcp_tools,),
     }
 
     if function_call_part.name not in function_mapping:
@@ -50,6 +54,10 @@ def call_function(function_call_part, api_key=None):
 
     if function_call_part.name == "analyze_image":
         result = func(func_info[1], api_key=func_info[2], **function_call_part.args)
+    elif function_call_part.name == "connect_mcp_server":
+        result = asyncio.run(func(**function_call_part.args))
+    elif function_call_part.name == "list_mcp_tools":
+        result = asyncio.run(func(**function_call_part.args))
     else:
         result = func(func_info[1], **function_call_part.args)
 

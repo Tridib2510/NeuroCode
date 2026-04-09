@@ -234,9 +234,3 @@ If you like this project:
 ⭐ Star the repository\
 🍴 Fork the repo\
 📢 Share it with others
-
-------------------------------------------------------------------------
-
-# 📜 License
-
-This project is licensed under the **MIT License**.
